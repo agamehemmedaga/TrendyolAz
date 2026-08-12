@@ -1,0 +1,9 @@
+services:
+  trendyol-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trendyol_backend_app
+    ports:
+      - "8080:8080"
+    restart: always
