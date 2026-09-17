@@ -1,16 +1,7 @@
 spring:
-  main:
-    allow-circular-references: true
+  profiles:
+    active: local
   application:
-    name: Trendyol.az
-  jpa:
-    datasource-platform: org.hibernate.dialect.H2Dialect
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-      properties:
-        hibernate:
-          format_sql: true
-  h2:
-    console:
-      enabled: true
+    name: trendyolaz
+  liquibase:
+   change-log: classpath:db/changelog/db.changelog-master.xml

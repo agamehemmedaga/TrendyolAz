@@ -25,7 +25,14 @@ public class Product {
     @Column (nullable = false)
     private BigDecimal discountedPrice;
 
+    @Column (nullable = false)
+    private Integer stock;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = " category_id")
     private Category category;
+
+    public BigDecimal getPrice(){
+        return discountedPrice!=null? discountedPrice:originalPrice;
+    }
 }

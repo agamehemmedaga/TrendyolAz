@@ -1,6 +1,7 @@
 package az.trendyolaz.service.impl;
 import az.trendyolaz.dto.ProductRequestDto;
 import az.trendyolaz.dto.ProductResponseDto;
+import az.trendyolaz.dto.ProductSearchDto;
 import az.trendyolaz.exception.ResourceNotFoundException;
 import az.trendyolaz.entity.Category;
 import az.trendyolaz.entity.Product;
@@ -8,6 +9,8 @@ import az.trendyolaz.repository.CategoryRepository;
 import az.trendyolaz.repository.ProductRepository;
 import az.trendyolaz.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -95,4 +98,13 @@ public class ProductServiceImpl implements ProductService {
                 .build();
 
         }
+
+    @Override
+    public Page<ProductResponseDto> searchProducts(ProductSearchDto searchDto, Pageable pageable) {
+        return Page.empty();
+    }
+
+
+
+
 }
