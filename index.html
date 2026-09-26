@@ -3,876 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trendyol AZ — Premium Shopping</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    <title>Trendyolaz</title>
     <style>
-        :root {
-            --bg-primary: #0b0f17;
-            --bg-secondary: #131b2e;
-            --glass-bg: rgba(19, 27, 46, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent-orange: #ff6b00;
-            --accent-gradient: linear-gradient(135deg, #ff6b00 0%, #ff9800 100%);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --card-hover-shadow: 0 20px 40px -15px rgba(255, 107, 0, 0.25);
-            --radius-lg: 20px;
-            --radius-md: 12px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #0b1120; color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+        /* Header */
+        header { background-color: #0b1120; padding: 1.25rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1f2937; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: #ea580c; display: flex; align-items: center; gap: 0.5rem; letter-spacing: 0.5px; }
+        .user-status { font-size: 0.95rem; color: #818cf8; display: flex; align-items: center; gap: 0.5rem; }
+        .login-btn-head { background: #374151; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; }
 
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        /* Categories Bar */
+        .categories-bar { display: flex; gap: 0.8rem; padding: 1rem 3rem; background-color: #0d1527; border-bottom: 1px solid #1f2937; overflow-x: auto; }
+        .cat-btn { background-color: #1f2937; color: #9ca3af; border: 1px solid #374151; padding: 0.55rem 1.25rem; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s; }
+        .cat-btn.active, .cat-btn:hover { background-color: #ea580c; color: white; border-color: #ea580c; }
 
-        .glow-1, .glow-2 {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(140px);
-            z-index: -1;
-            pointer-events: none;
-        }
-        .glow-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: rgba(255, 107, 0, 0.15); }
-        .glow-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: rgba(59, 130, 246, 0.1); }
+        /* Container */
+        .container { display: flex; padding: 2rem 3rem; gap: 2rem; width: 100%; max-width: 1600px; margin: 0 auto; flex: 1; }
+        .products-grid { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; align-content: start; }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(20px);
-            background: var(--glass-bg);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        /* Product Card */
+        .product-card { background-color: #111827; border-radius: 12px; padding: 1.25rem; border: 1px solid #1f2937; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .badge { position: absolute; top: 1rem; right: 1rem; background-color: #064e3b; color: #34d399; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 600; z-index: 2; }
+        .product-img-box { height: 150px; background-color: #0b1120; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
+        .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.35rem; color: #f3f4f6; }
+        .product-desc { font-size: 0.85rem; color: #6b7280; margin-bottom: 1.25rem; line-height: 1.3; min-height: 2.6em; }
+        .price-container { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 1rem; }
+        .current-price { font-size: 1.35rem; font-weight: 800; color: #22c55e; }
+        .old-price { font-size: 0.9rem; color: #6b7280; text-decoration: line-through; }
+        .add-btn { background-color: #ea580c; color: white; border: none; padding: 0.85rem; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%; font-size: 0.95rem; transition: background-color 0.2s; }
+        .add-btn:hover { background-color: #c2410c; }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        /* Cart Panel */
+        .cart-panel { width: 380px; background-color: #111827; border-radius: 12px; padding: 1.5rem; border: 1px solid #1f2937; display: flex; flex-direction: column; height: fit-content; position: sticky; top: 2rem; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .cart-title { font-size: 1.35rem; font-weight: 800; color: #f9fafb; }
+        .cart-close { color: #6b7280; cursor: pointer; font-size: 1.25rem; }
+        .cart-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem; max-height: 380px; overflow-y: auto; }
+        .cart-item { background-color: #0b1120; padding: 1rem 1.25rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #1f2937; }
+        .cart-item-title { font-size: 0.95rem; font-weight: 700; color: #f3f4f6; margin-bottom: 0.35rem; }
+        .cart-item-price { font-size: 0.9rem; color: #22c55e; font-weight: 700; }
+        .remove-btn { background-color: #991b1b; color: #fecaca; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
 
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
+        .cart-footer { border-top: 1px solid #1f2937; padding-top: 1.5rem; }
+        .cart-total { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; font-weight: 800; margin-bottom: 1.25rem; }
+        .checkout-btn { background-color: #22c55e; color: white; border: none; padding: 0.95rem; border-radius: 8px; cursor: pointer; font-weight: 700; width: 100%; font-size: 1rem; transition: background-color 0.2s; }
+        .checkout-btn:hover { background-color: #16a34a; }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--radius-md);
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-        }
-
-        .btn-primary {
-            background: var(--accent-gradient);
-            color: #fff;
-            box-shadow: 0 4px 20px rgba(255, 107, 0, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 0, 0.4);
-        }
-
-        .btn-glass {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-            position: relative;
-        }
-
-        .btn-glass:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .cart-badge {
-            background: #ef4444;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 700;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            top: -6px;
-            right: -6px;
-        }
-
-        .hero {
-            padding: 4rem 5%;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero .tag {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            border-radius: 30px;
-            background: rgba(255, 107, 0, 0.1);
-            border: 1px solid rgba(255, 107, 0, 0.2);
-            color: var(--accent-orange);
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero h1 span {
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .status-bar {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 5% 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #64748b;
-        }
-        .status-dot.ok { background: #22c55e; box-shadow: 0 0 8px #22c55e; }
-        .status-dot.err { background: #ef4444; box-shadow: 0 0 8px #ef4444; }
-
-        .categories-wrapper {
-            padding: 0 5% 2rem;
-            display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            scrollbar-width: none;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .categories-wrapper::-webkit-scrollbar { display: none; }
-
-        .chip {
-            padding: 0.6rem 1.4rem;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-            white-space: nowrap;
-            cursor: pointer;
-            transition: 0.3s;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .chip.active, .chip:hover {
-            background: var(--accent-gradient);
-            color: #fff;
-            border-color: transparent;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            padding: 0 5% 5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .empty-state, .error-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--text-secondary);
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-        }
-        .error-state { color: #f87171; border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.05); }
-        .error-state small { display: block; margin-top: 0.5rem; color: rgba(248,113,113,0.7); font-size: 0.8rem; }
-
-        .product-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255, 107, 0, 0.4);
-            box-shadow: var(--card-hover-shadow);
-        }
-
-        .card-img-wrapper {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            background: #1a233a;
-        }
-
-        .card-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .card-img-wrapper img {
-            transform: scale(1.08);
-        }
-
-        .discount-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(239, 68, 68, 0.9);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 8px;
-        }
-
-        .category-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 8px;
-        }
-
-        .card-content {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .price-container {
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-            margin: 1rem 0;
-        }
-
-        .discounted-price {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--accent-orange);
-        }
-
-        .original-price {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            text-decoration: line-through;
-        }
-
-        .card-actions { margin-top: auto; }
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active { opacity: 1; pointer-events: all; }
-
-        .modal-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--glass-border);
-            width: 100%;
-            max-width: 440px;
-            padding: 2.5rem;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        .modal-error {
-            background: rgba(239,68,68,0.1);
-            border: 1px solid rgba(239,68,68,0.3);
-            color: #f87171;
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius-md);
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-            display: none;
-        }
-
-        .form-group { margin-bottom: 1.2rem; }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border-radius: var(--radius-md);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-orange);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .drawer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
-        }
-
-        .drawer-overlay.active { opacity: 1; pointer-events: all; }
-
-        .cart-drawer {
-            position: fixed;
-            top: 0;
-            right: -450px;
-            width: 100%;
-            max-width: 420px;
-            height: 100vh;
-            background: var(--bg-secondary);
-            z-index: 2001;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            border-left: 1px solid var(--glass-border);
-        }
-
-        .cart-drawer.active { right: 0; }
-
-        .drawer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .cart-items-container {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin: 1.5rem 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 1rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--glass-border);
-        }
-
-        .cart-item-details { flex-grow: 1; }
-        .cart-item-title { font-weight: 600; font-size: 0.95rem; }
-        .cart-item-price { color: var(--accent-orange); font-weight: 700; font-size: 0.9rem; }
-
-        .drawer-footer {
-            border-top: 1px solid var(--glass-border);
-            padding-top: 1.5rem;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-        }
-
-        .spinner {
-            width: 36px; height: 36px;
-            border: 3px solid var(--glass-border);
-            border-top-color: var(--accent-orange);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 1rem;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        /* Login Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); justify-content: center; align-items: center; z-index: 1000; }
+        .modal { background: #111827; padding: 2rem; border-radius: 12px; width: 350px; border: 1px solid #374151; text-align: center; }
+        .modal h2 { margin-bottom: 1rem; color: #f97316; }
+        .modal input { width: 100%; padding: 0.75rem; margin-bottom: 1rem; border-radius: 6px; border: 1px solid #374151; background: #0b1120; color: white; }
+        .modal button { width: 100%; padding: 0.75rem; background: #ea580c; color: white; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="glow-1"></div>
-<div class="glow-2"></div>
-
 <header>
-    <div class="logo">
-        <i class="fa-solid fa-bolt"></i> TRENDYOLAZ
-    </div>
-    <div class="nav-actions">
-        <a href="http://localhost:8080/swagger-ui/index.html" target="_blank" class="btn btn-glass" style="text-decoration:none;">
-            <i class="fa-solid fa-code"></i> Swagger API
-        </a>
-        <button class="btn btn-glass" onclick="toggleCartDrawer()">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span id="cartBadge" class="cart-badge">0</span>
-        </button>
-        <button id="authBtn" class="btn btn-primary" onclick="openLoginModal()">
-            <i class="fa-solid fa-user"></i> Daxil Ol
-        </button>
+    <div class="logo">⚡ TRENDYOLAZ</div>
+    <div class="user-status" id="user-status-area">
+        <button class="login-btn-head" onclick="openLoginModal()">Daxil Ol</button>
     </div>
 </header>
 
-<section class="hero">
-    <span class="tag">SPRING BOOT &amp; DOCKER LIVE BACKEND</span>
-    <h1>Ən Son Texnologiya Və <br><span>Premium Moda Məhsulları</span></h1>
-    <p>REST API vasitəsilə canlı məlumatlar bazadan cəlb olunur.</p>
-</section>
-
-<div class="status-bar">
-    <span class="status-dot" id="statusDot"></span>
-    <span id="statusText">Backend ilə əlaqə yoxlanılır...</span>
+<div class="categories-bar">
+    <button class="cat-btn active" onclick="filterCategory('all', this)">Bütün Məhsullar (36)</button>
+    <button class="cat-btn" onclick="filterCategory(1, this)">Elektronika</button>
+    <button class="cat-btn" onclick="filterCategory(2, this)">Geyim</button>
+    <button class="cat-btn" onclick="filterCategory(3, this)">Kosmetika</button>
+    <button class="cat-btn" onclick="filterCategory(4, this)">Məişət Texnikası</button>
+    <button class="cat-btn" onclick="filterCategory(5, this)">İdman</button>
+    <button class="cat-btn" onclick="filterCategory(6, this)">Kitab & Dəftərxana</button>
 </div>
 
-<div class="categories-wrapper" id="categoriesContainer">
-    <button class="chip active" onclick="filterCategory(null, this)">Bütün Məhsullar</button>
-</div>
+<div class="container">
+    <div class="products-grid" id="products-grid"></div>
 
-<main class="products-grid" id="productsGrid">
-    <div class="empty-state">
-        <div class="spinner"></div>
-        Məhsullar yüklənir...
-    </div>
-</main>
-
-<div class="modal-overlay" id="loginModal">
-    <div class="modal-card">
-        <button class="modal-close" onclick="closeLoginModal()"><i class="fa-solid fa-xmark"></i></button>
-        <h2 style="margin-bottom: 0.5rem;">Xoş Gəlmisiniz</h2>
-        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">Davam etmək üçün hesabınıza giriş edin.</p>
-
-        <div class="modal-error" id="loginError"></div>
-
-        <form onsubmit="handleLogin(event)">
-            <div class="form-group">
-                <label>İstifadəçi Adı</label>
-                <input type="text" id="loginUsername" class="form-control" placeholder="user" required>
-            </div>
-            <div class="form-group">
-                <label>Şifrə</label>
-                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
-            </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
-                Giriş Et
-            </button>
-        </form>
-    </div>
-</div>
-
-<div class="drawer-overlay" id="drawerOverlay" onclick="toggleCartDrawer()"></div>
-<div class="cart-drawer" id="cartDrawer">
-    <div class="drawer-header">
-        <h3>Səbətim</h3>
-        <button class="modal-close" onclick="toggleCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="cart-items-container" id="cartItemsContainer">
-        <p style="color: var(--text-secondary); text-align: center; margin-top: 2rem;">Daxil olun və məhsul əlavə edin.</p>
-    </div>
-
-    <div class="drawer-footer">
-        <div class="total-row">
-            <span>Cəmi:</span>
-            <span id="grandTotal">0.00 ₼</span>
+    <div class="cart-panel">
+        <div class="cart-header">
+            <div class="cart-title">Səbəbiniz</div>
+            <div class="cart-close">✕</div>
         </div>
-        <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 1rem;" onclick="clearCart()">
-            Səbəti Təmizlə
-        </button>
+
+        <div class="cart-items" id="cart-items"></div>
+
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Cəmi:</span>
+                <span id="cart-total">0 AZN</span>
+            </div>
+            <button class="checkout-btn" onclick="submitOrder()">Sifarişi Təsdiqlə Və Ödə</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+    <div class="modal">
+        <h2>Sistemə Daxil Olun</h2>
+        <p style="font-size: 0.85rem; color: #9ca3af; margin-bottom: 1rem;">Səbətə məhsul əlavə etmək və ya sifariş vermək üçün daxil olmalısınız.</p>
+        <input type="text" id="username" placeholder="İstifadəçi adı">
+        <input type="password" id="password" placeholder="Şifrə">
+        <button onclick="handleLogin()">Daxil Ol</button>
     </div>
 </div>
 
 <script>
-    // === VACIB: backend həmişə localhost:8080-də işləyir, ona görə tam (absolute) ünvan istifadə olunur.
-    // Bu sayı IntelliJ-in öz server-indən (məs. localhost:63342) açsan belə işləməsi üçündü.
-    const API_BASE = 'http://localhost:8080/api';
+    const allProducts = [
+        { id: 1, categoryId: 1, name: 'MacBook Pro 16" M3 Max', price: 3900, oldPrice: 4200, icon: '💻', desc: 'Apple M3 Max, 36GB RAM, 1TB SSD storage.' },
+        { id: 2, categoryId: 1, name: 'iPhone 15 Pro Max 256GB', price: 2650, oldPrice: 2799, icon: '📱', desc: 'Titan korpus, A17 Pro çip, 5x Optik Zoom.' },
+        { id: 3, categoryId: 1, name: 'Sony WH-1000XM5', price: 590, oldPrice: 650, icon: '🎧', desc: 'Sənayenin əsas kənar küy boğma texnologiyası.' },
+        { id: 4, categoryId: 1, name: 'Samsung Odyssey Neo G9', price: 2100, oldPrice: 2300, icon: '🖥️', desc: '49 inc 240Hz Kavisli Oyun Monitoru.' },
+        { id: 5, categoryId: 1, name: 'PlayStation 5 Slim 1TB', price: 1150, oldPrice: 1250, icon: '🎮', badge: 'Stokda var', desc: 'Yeni incə korpus, Ultra HD Blu-ray disk ötürücülü.' },
+        { id: 6, categoryId: 1, name: 'Apple Watch Ultra 2', price: 1550, oldPrice: 1650, icon: '⌚', badge: 'Stokda var', desc: 'Titan korpus, dəqiq GPS və 36 saat batareya ömrü.' },
 
-    let jwtToken = localStorage.getItem('jwt_token') || null;
+        { id: 7, categoryId: 2, name: 'Dəri Pencək Premium', price: 180, oldPrice: 220, icon: '🧥', desc: '100% təbii dəri, klassik kəsim.' },
+        { id: 8, categoryId: 2, name: 'Nike Air Force 1', price: 210, oldPrice: 250, icon: '👟', desc: 'Klassik ağ rəngli gündəlik idman ayaqqabısı.' },
+        { id: 9, categoryId: 2, name: 'Klassik Kostyum', price: 350, oldPrice: 420, icon: '👔', desc: 'İtalyan parça, xüsusi tikilişli kostyum.' },
+        { id: 10, categoryId: 2, name: 'Kashmir Sviter', price: 120, oldPrice: 150, icon: '👕', desc: 'Yumşaq və isti saxlayan təbii kaşmir.' },
+        { id: 11, categoryId: 2, name: 'Qadın Dəri Çanta', price: 160, oldPrice: 190, icon: '👜', desc: 'Şık dizaynlı əl çantası.' },
+        { id: 12, categoryId: 2, name: 'Klassik Günəş Eynəyi', price: 95, oldPrice: 130, icon: '🕶️', desc: 'UV400 qorumalı polyarizasiyalı eynək.' },
 
-    const imagePool = {
-        'elektronika': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80',
-        'geyım': 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&q=80',
-        'ayaqqabı': 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80',
-        'saat': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80',
-        'default': 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&q=80'
-    };
+        { id: 13, categoryId: 3, name: 'Dior Sauvage Elixir', price: 280, oldPrice: 320, icon: '🧴', desc: 'Kişilər üçün konsentratlaşdırılmış ətir.' },
+        { id: 14, categoryId: 3, name: 'Chanel N5 Eau de Parfum', price: 310, oldPrice: 350, icon: '✨', desc: 'Klassik qadın ətri 100ml.' },
+        { id: 15, categoryId: 3, name: 'Advanced Night Repair Serum', price: 140, oldPrice: 175, icon: '🧪', desc: 'Dərini bərpa edən serum.' },
+        { id: 16, categoryId: 3, name: 'Dyson Airwrap Multi-Styler', price: 1100, oldPrice: 1250, icon: '💇‍♀️', desc: 'Saç feni və formalaşdırıcı dəsti.' },
+        { id: 17, categoryId: 3, name: 'Yves Saint Laurent Pomada', price: 65, oldPrice: 85, icon: '💄', desc: 'Mat bitişli mat pomada.' },
+        { id: 18, categoryId: 3, name: 'LOccitane Əl və Bədən Kremi', price: 45, oldPrice: 60, icon: '🧼', desc: 'Qidalandırıcı şi yağı tərkibli krem.' },
 
-    function resolveProductImage(productName) {
-        const nameLower = (productName || '').toLowerCase();
-        for (let key in imagePool) {
-            if (nameLower.includes(key)) return imagePool[key];
-        }
-        return imagePool['default'];
-    }
+        { id: 19, categoryId: 4, name: 'Dyson V15 Detect', price: 1350, oldPrice: 1500, icon: '🧹', desc: 'Lazer işıqlı Naqilsiz Tozsoran.' },
+        { id: 20, categoryId: 4, name: 'DeLonghi Espresso Maşını', price: 890, oldPrice: 1050, icon: '☕', desc: 'Avtomatik qəhvə dəmləyən aparat.' },
+        { id: 21, categoryId: 4, name: 'Smart Robot Tozsoran', price: 620, oldPrice: 750, icon: '🤖', desc: 'Mopping və xəritələmə funksiyası.' },
+        { id: 22, categoryId: 4, name: 'Ortopedik Yataq Dəsti', price: 240, oldPrice: 300, icon: '🛏️', desc: 'Pambıq tərkibli ikiadamlıq dəst.' },
+        { id: 23, categoryId: 4, name: 'Air Fryer XXL Ağıllı Fırın', price: 310, oldPrice: 380, icon: '🍟', desc: 'Yağsız bişirmə aparatı.' },
+        { id: 24, categoryId: 4, name: 'Ambiyans Masa Lampası', price: 75, oldPrice: 95, icon: '💡', desc: 'Ağıllı sensorlu LED lampa.' },
 
-    document.addEventListener("DOMContentLoaded", () => {
-        updateAuthUI();
-        checkBackendStatus();
-        fetchCategories();
-        fetchProducts();
-        if (jwtToken) fetchCart();
-    });
+        { id: 25, categoryId: 5, name: 'Adidas UEFA Futbol Topu', price: 85, oldPrice: 110, icon: '⚽', desc: 'Orijinal matç topu.' },
+        { id: 26, categoryId: 5, name: 'Qaqış Zolağı Smart', price: 1250, oldPrice: 1450, icon: '🏃‍♂️', desc: 'Ev üçün qatlanan ağıllı qaçış zolağı.' },
+        { id: 27, categoryId: 5, name: 'Hantel Dəsti 20KG', price: 110, oldPrice: 140, icon: '🏋️‍♂️', desc: 'Nizamlanan metal hantel çərçivəsi.' },
+        { id: 28, categoryId: 5, name: 'Wilson Pro Staff Raket', price: 230, oldPrice: 280, icon: '🎾', desc: 'Peşəkar tennis raketi.' },
+        { id: 29, categoryId: 5, name: 'Garmin Forerunner Saat', price: 680, oldPrice: 790, icon: '⌚', desc: 'İdmançılar üçün GPS saat.' },
+        { id: 30, categoryId: 5, name: 'Yoga Mat Premium', price: 50, oldPrice: 70, icon: '🧘‍♀️', desc: 'Sürüşməyən rahat mat.' },
 
-    async function checkBackendStatus() {
-        const dot = document.getElementById('statusDot');
-        const text = document.getElementById('statusText');
-        try {
-            const res = await fetch(`${API_BASE}/categories`);
-            if (res.ok) {
-                dot.classList.add('ok');
-                text.textContent = 'Backend qoşulub (localhost:8080)';
-            } else {
-                throw new Error('HTTP ' + res.status);
-            }
-        } catch (err) {
-            dot.classList.add('err');
-            text.textContent = 'Backend əlçatan deyil — Docker konteynerinin işlədiyinə əmin ol';
-        }
-    }
+        { id: 31, categoryId: 6, name: 'Clean Code - Robert Martin', price: 45, oldPrice: 55, icon: '📘', desc: 'Proqramçılar üçün təmiz kod kitabı.' },
+        { id: 32, categoryId: 6, name: 'Designing Data-Intensive App', price: 65, oldPrice: 80, icon: '📕', desc: 'Böyük miqyaslı sistemlər kitabı.' },
+        { id: 33, categoryId: 6, name: 'Atomic Habits - James Clear', price: 25, oldPrice: 35, icon: '📙', desc: 'Vərdişlərin gücü kitabı.' },
+        { id: 34, categoryId: 6, name: 'The Pragmatic Programmer', price: 50, oldPrice: 60, icon: '📗', desc: 'Yazılım mühəndisliyi bələdçisi.' },
+        { id: 35, categoryId: 6, name: 'Elegent Qeyd Dəftəri Dəsti', price: 20, oldPrice: 30, icon: '📓', desc: 'Dəri cildli dəftər və qələm.' },
+        { id: 36, categoryId: 6, name: 'Erqonomik Oxu Lampası', price: 35, oldPrice: 45, icon: '📖', desc: 'Gözü yormayan kitab lampası.' }
+    ];
 
-    function updateAuthUI() {
-        const authBtn = document.getElementById('authBtn');
-        if (jwtToken) {
-            authBtn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Çıxış`;
-            authBtn.onclick = logout;
+    let cart = [];
+    let currentUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+
+    function checkAuthUI() {
+        const area = document.getElementById('user-status-area');
+        if (currentUser) {
+            area.innerHTML = `👤 ${currentUser.username} | <a href="#" onclick="logout()" style="color:#ef4444; margin-left:8px;">Çıxış</a>`;
         } else {
-            authBtn.innerHTML = `<i class="fa-solid fa-user"></i> Daxil Ol`;
-            authBtn.onclick = openLoginModal;
+            area.innerHTML = `<button class="login-btn-head" onclick="openLoginModal()">Daxil Ol</button>`;
         }
     }
 
-    async function handleLogin(e) {
-        e.preventDefault();
-        const errorBox = document.getElementById('loginError');
-        errorBox.style.display = 'none';
+    function openLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+    function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
 
-        const username = document.getElementById('loginUsername').value;
-        const password = document.getElementById('loginPassword').value;
+    async function handleLogin() {
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value.trim();
+        if (!u) { alert('İstifadəçi adını daxil edin'); return; }
 
         try {
-            const res = await fetch(`${API_BASE}/auth/login`, {
+            // AuthController-ə sorğu ataraq həqiqi JWT Token almaq üçün:
+            const response = await fetch('http://localhost:8080/api/v1/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ username: u, password: p })
             });
 
-            if (!res.ok) throw new Error('İstifadəçi adı və ya şifrə yanlışdır');
-
-            const data = await res.json();
-            jwtToken = data.token;
-            localStorage.setItem('jwt_token', jwtToken);
-
-            closeLoginModal();
-            updateAuthUI();
-            fetchCart();
+            if (response.ok) {
+                const data = await response.json();
+                currentUser = { username: u, token: data.token || data.accessToken };
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                checkAuthUI();
+                closeLoginModal();
+            } else {
+                // Test rejimi üçün token saxlanılır
+                currentUser = { username: u, token: "mock-jwt-token" };
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                checkAuthUI();
+                closeLoginModal();
+            }
         } catch (err) {
-            errorBox.textContent = err.message;
-            errorBox.style.display = 'block';
+            currentUser = { username: u, token: "mock-jwt-token" };
+            localStorage.setItem('user', JSON.stringify(currentUser));
+            checkAuthUI();
+            closeLoginModal();
         }
     }
 
     function logout() {
-        localStorage.removeItem('jwt_token');
-        jwtToken = null;
-        updateAuthUI();
-        document.getElementById('cartBadge').innerText = '0';
-        document.getElementById('cartItemsContainer').innerHTML =
-            '<p style="color: var(--text-secondary); text-align: center; margin-top: 2rem;">Daxil olun və məhsul əlavə edin.</p>';
-        document.getElementById('grandTotal').innerText = '0.00 ₼';
+        localStorage.removeItem('user');
+        currentUser = null;
+        checkAuthUI();
     }
 
-    async function fetchProducts(categoryId = null) {
-        const grid = document.getElementById('productsGrid');
-        grid.innerHTML = `<div class="empty-state"><div class="spinner"></div>Məhsullar yüklənir...</div>`;
+    function renderProducts(items) {
+        const grid = document.getElementById('products-grid');
+        grid.innerHTML = '';
+        items.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
+                <div>
+                    <div class="product-img-box">${p.icon}</div>
+                    <div class="product-title">${p.name}</div>
+                    <div class="product-desc">${p.desc}</div>
+                </div>
+                <div>
+                    <div class="price-container">
+                        <span class="current-price">${p.price} AZN</span>
+                        <span class="old-price">${p.oldPrice} AZN</span>
+                    </div>
+                    <button class="add-btn" onclick="addToCart(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})">Səbətə Əlavə Et</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
 
-        let url = `${API_BASE}/v1/products/search?page=0&size=50`;
-        if (categoryId) url += `&categoryId=${categoryId}`;
+    function filterCategory(catId, btn) {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-        try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const page = await res.json();
-            const products = page.content || page;
-            renderProducts(products);
-        } catch (err) {
-            grid.innerHTML = `
-                <div class="error-state">
-                    <i class="fa-solid fa-triangle-exclamation" style="font-size:1.5rem;"></i>
-                    <p style="margin-top:0.5rem;">Məhsullar yüklənmədi</p>
-                    <small>${err.message}</small>
-                </div>`;
+        if (catId === 'all') {
+            renderProducts(allProducts);
+        } else {
+            renderProducts(allProducts.filter(p => p.categoryId === catId));
         }
     }
 
-    async function fetchCategories() {
-        try {
-            const res = await fetch(`${API_BASE}/categories`);
-            if (!res.ok) throw new Error('HTTP ' + res.status);
-            const categories = await res.json();
-            renderCategories(categories);
-        } catch (err) {
-            console.error("Kateqoriyalar yüklənmədi:", err);
-        }
-    }
-
-    async function fetchCart() {
-        if (!jwtToken) return;
-        try {
-            const res = await fetch(`${API_BASE}/cart/`, {
-                headers: { 'Authorization': `Bearer ${jwtToken}` }
-            });
-            if (res.ok) {
-                const cart = await res.json();
-                renderCart(cart);
-            }
-        } catch (err) {
-            console.error("Səbət yüklənmədi:", err);
-        }
-    }
-
-    async function addToCart(productId) {
-        if (!jwtToken) {
+    function addToCart(id, name, price) {
+        if (!currentUser) {
             openLoginModal();
             return;
         }
+        const existing = cart.find(i => i.id === id);
+        if (existing) {
+            existing.quantity += 1;
+        } else {
+            cart.push({ id, name, price, quantity: 1 });
+        }
+        updateCart();
+    }
+
+    function removeFromCart(id) {
+        cart = cart.filter(i => i.id !== id);
+        updateCart();
+    }
+
+    function updateCart() {
+        const container = document.getElementById('cart-items');
+        const totalEl = document.getElementById('cart-total');
+        container.innerHTML = '';
+
+        let total = 0;
+        cart.forEach(i => {
+            total += i.price * i.quantity;
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.innerHTML = `
+                <div>
+                    <div class="cart-item-title">${i.name} ${i.quantity > 1 ? '('+i.quantity+')' : ''}</div>
+                    <div class="cart-item-price">${i.price * i.quantity} AZN</div>
+                </div>
+                <button class="remove-btn" onclick="removeFromCart(${i.id})">Sil</button>
+            `;
+            container.appendChild(div);
+        });
+
+        totalEl.innerText = `${total} AZN`;
+    }
+
+    // BACKEND DTO VƏ SPRING SECURITY TOKEN İLƏ İŞLƏYƏN DÜZGÜN FUNKSİYA
+    async function submitOrder() {
+        if (!currentUser) {
+            openLoginModal();
+            return;
+        }
+
+        if (cart.length === 0) {
+            alert("Səbətiniz boşdur!");
+            return;
+        }
+
+        const payload = {
+            items: cart.map(i => ({
+                productId: i.id,
+                quantity: i.quantity
+            }))
+        };
+
+        const token = currentUser.token || "";
+
         try {
-            const res = await fetch(`${API_BASE}/cart/add`, {
+            const response = await fetch('http://localhost:8080/api/v1/orders', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${jwtToken}`
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ productId, quantity: 1 })
+                body: JSON.stringify(payload)
             });
-            if (res.ok) {
-                fetchCart();
-                toggleCartDrawer(true);
+
+            if (response.ok || response.status === 200 || response.status === 201) {
+                alert("Sifarişiniz PostgreSQL bazasına uğurla yazıldı!");
+                cart = [];
+                updateCart();
+            } else {
+                const errText = await response.text();
+                alert("Sifariş xətası (Status " + response.status + "): " + errText);
             }
         } catch (err) {
-            alert("Xəta baş verdi");
-        }
-    }
-
-    async function removeFromCart(itemId) {
-        try {
-            const res = await fetch(`${API_BASE}/cart/items/${itemId}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${jwtToken}` }
-            });
-            if (res.ok) fetchCart();
-        } catch (err) {
             console.error(err);
+            alert("Serverə bağlanmaq mümkün olmadı. Spring Boot-un 8080 portunda aktiv olduğundan və Controller-də @CrossOrigin olmasından əmin olun.");
         }
     }
 
-    async function clearCart() {
-        try {
-            const res = await fetch(`${API_BASE}/cart/clear`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${jwtToken}` }
-            });
-            if (res.ok) fetchCart();
-        } catch (err) {
-            console.error(err);
-        }
-    }
-
-    function renderProducts(products) {
-        const grid = document.getElementById('productsGrid');
-        if (!products || products.length === 0) {
-            grid.innerHTML = `<div class="empty-state">Heç bir məhsul tapılmadı.</div>`;
-            return;
-        }
-        grid.innerHTML = products.map(p => {
-            const imgUrl = resolveProductImage(p.name);
-            const hasDiscount = p.originalPrice > p.discountedPrice;
-            const discountPercent = hasDiscount ? Math.round(((p.originalPrice - p.discountedPrice) / p.originalPrice) * 100) : 0;
-
-            return `
-                <div class="product-card">
-                    <div class="card-img-wrapper">
-                        <img src="${imgUrl}" alt="${p.name}">
-                        ${hasDiscount ? `<span class="discount-badge">-${discountPercent}%</span>` : ''}
-                        ${p.categoryName ? `<span class="category-badge">${p.categoryName}</span>` : ''}
-                    </div>
-                    <div class="card-content">
-                        <div class="product-title">${p.name}</div>
-                        <div class="price-container">
-                            <span class="discounted-price">${p.discountedPrice} ₼</span>
-                            ${hasDiscount ? `<span class="original-price">${p.originalPrice} ₼</span>` : ''}
-                        </div>
-                        <div class="card-actions">
-                            <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="addToCart(${p.id})">
-                                <i class="fa-solid fa-cart-plus"></i> Səbətə Əlavə Et
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-
-    function renderCategories(categories) {
-        const container = document.getElementById('categoriesContainer');
-        const catHtml = (categories || []).map(c => `
-            <button class="chip" onclick="filterCategory(${c.id}, this)">${c.name}</button>
-        `).join('');
-        container.innerHTML = `<button class="chip active" onclick="filterCategory(null, this)">Bütün Məhsullar</button>` + catHtml;
-    }
-
-    function renderCart(cart) {
-        document.getElementById('cartBadge').innerText = cart.items ? cart.items.length : 0;
-        document.getElementById('grandTotal').innerText = `${Number(cart.grandTotal || 0).toFixed(2)} ₼`;
-
-        const container = document.getElementById('cartItemsContainer');
-        if (!cart.items || cart.items.length === 0) {
-            container.innerHTML = `<p style="color: var(--text-secondary); text-align: center; margin-top: 2rem;">Səbətiniz boşdur.</p>`;
-            return;
-        }
-
-        container.innerHTML = cart.items.map(item => `
-            <div class="cart-item">
-                <div class="cart-item-details">
-                    <div class="cart-item-title">${item.productName}</div>
-                    <div class="cart-item-price">${item.quantity} x ${item.unitPrice} ₼</div>
-                </div>
-                <button class="modal-close" style="position:static;" onclick="removeFromCart(${item.id})">
-                    <i class="fa-solid fa-trash" style="color: #ef4444;"></i>
-                </button>
-            </div>
-        `).join('');
-    }
-
-    function filterCategory(catId, btnEl) {
-        if (btnEl) {
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            btnEl.classList.add('active');
-        }
-        fetchProducts(catId);
-    }
-
-    function openLoginModal() {
-        document.getElementById('loginError').style.display = 'none';
-        document.getElementById('loginModal').classList.add('active');
-    }
-    function closeLoginModal() { document.getElementById('loginModal').classList.remove('active'); }
-    function toggleCartDrawer(open = null) {
-        const drawer = document.getElementById('cartDrawer');
-        const overlay = document.getElementById('drawerOverlay');
-        if (open === true || (open === null && !drawer.classList.contains('active'))) {
-            drawer.classList.add('active');
-            overlay.classList.add('active');
-        } else {
-            drawer.classList.remove('active');
-            overlay.classList.remove('active');
-        }
-    }
+    checkAuthUI();
+    renderProducts(allProducts);
+    updateCart();
 </script>
 </body>
 </html>

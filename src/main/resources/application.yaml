@@ -1,7 +1,12 @@
 spring:
-  profiles:
-    active: local
-  application:
-    name: trendyolaz
+  datasource:
+    url: jdbc:postgresql://localhost:5432/trendyol_db
+    username: postgres
+    password: mypassword
   liquibase:
-   change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate

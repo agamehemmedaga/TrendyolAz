@@ -1,0 +1,329 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3-insert-products-v2
+      author: mehemmed
+      changes:
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: name, value: "Electronica" }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: name, value: "Geyim" }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: name, value: "Cosmetics" }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: name, value: "Ev və yaşam" }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: name, value: "İdman" }
+        - insert:
+            tableName: categories
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: name, value: "Kitab" }
+
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: name, value: "iPhone 15 Pro Max" }
+              - column: { name: price, valueNumeric: 3299.00 }
+              - column: { name: stock_quantity, valueNumeric: 15 }
+              - column: { name: category_id, valueNumeric: 1 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: name, value: "Samsung Galaxy S24 Ultra" }
+              - column: { name: price, valueNumeric: 2899.00 }
+              - column: { name: stock_quantity, valueNumeric: 20 }
+              - column: { name: category_id, valueNumeric: 1 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: name, value: "MacBook Pro 16 M3" }
+              - column: { name: price, valueNumeric: 4500.00 }
+              - column: { name: stock_quantity, valueNumeric: 10 }
+              - column: { name: category_id, valueNumeric: 1 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: name, value: "AirPods Pro 2" }
+              - column: { name: price, valueNumeric: 499.00 }
+              - column: { name: stock_quantity, valueNumeric: 50 }
+              - column: { name: category_id, valueNumeric: 1 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: name, value: "Sony WH-1000XM5 Qulaqlıq" }
+              - column: { name: price, valueNumeric: 750.00 }
+              - column: { name: stock_quantity, valueNumeric: 25 }
+              - column: { name: category_id, valueNumeric: 1 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: name, value: "Apple Watch Series 9" }
+              - column: { name: price, valueNumeric: 899.00 }
+              - column: { name: stock_quantity, valueNumeric: 30 }
+              - column: { name: category_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 7 }
+              - column: { name: name, value: "Oversize Qara T-Shirt" }
+              - column: { name: price, valueNumeric: 35.00 }
+              - column: { name: stock_quantity, valueNumeric: 100 }
+              - column: { name: category_id, valueNumeric: 2 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 8 }
+              - column: { name: name, value: "Mavi Cins Şalvar" }
+              - column: { name: price, valueNumeric: 65.00 }
+              - column: { name: stock_quantity, valueNumeric: 60 }
+              - column: { name: category_id, valueNumeric: 2 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 9 }
+              - column: { name: name, value: "Dəri Gödəkcə" }
+              - column: { name: price, valueNumeric: 180.00 }
+              - column: { name: stock_quantity, valueNumeric: 20 }
+              - column: { name: category_id, valueNumeric: 2 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 10 }
+              - column: { name: name, value: "Klassik Ağ Köynək" }
+              - column: { name: price, valueNumeric: 45.00 }
+              - column: { name: stock_quantity, valueNumeric: 80 }
+              - column: { name: category_id, valueNumeric: 2 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 11 }
+              - column: { name: name, value: "Hoodie Sviter" }
+              - column: { name: price, valueNumeric: 55.00 }
+              - column: { name: stock_quantity, valueNumeric: 70 }
+              - column: { name: category_id, valueNumeric: 2 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 12 }
+              - column: { name: name, value: "İdman Şalvarı (Joggings)" }
+              - column: { name: price, valueNumeric: 40.00 }
+              - column: { name: stock_quantity, valueNumeric: 90 }
+              - column: { name: category_id, valueNumeric: 2 }
+
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 13 }
+              - column: { name: name, value: "Dior Sauvage Ətir 100ml" }
+              - column: { name: price, valueNumeric: 260.00 }
+              - column: { name: stock_quantity, valueNumeric: 25 }
+              - column: { name: category_id, valueNumeric: 3 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 14 }
+              - column: { name: name, value: "CeraVe Üz Təmizləyici Gel" }
+              - column: { name: price, valueNumeric: 28.00 }
+              - column: { name: stock_quantity, valueNumeric: 120 }
+              - column: { name: category_id, valueNumeric: 3 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 15 }
+              - column: { name: name, value: "Nivea Nəmləndirici Krem" }
+              - column: { name: price, valueNumeric: 15.00 }
+              - column: { name: stock_quantity, valueNumeric: 200 }
+              - column: { name: category_id, valueNumeric: 3 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 16 }
+              - column: { name: name, value: "L'Oreal Saç Maskası" }
+              - column: { name: price, valueNumeric: 22.00 }
+              - column: { name: stock_quantity, valueNumeric: 80 }
+              - column: { name: category_id, valueNumeric: 3 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 17 }
+              - column: { name: name, value: "Maybelline Tuş" }
+              - column: { name: price, valueNumeric: 18.00 }
+              - column: { name: stock_quantity, valueNumeric: 150 }
+              - column: { name: category_id, valueNumeric: 3 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 18 }
+              - column: { name: name, value: "Güneş Qoruyucu Krem SPF50" }
+              - column: { name: price, valueNumeric: 35.00 }
+              - column: { name: stock_quantity, valueNumeric: 90 }
+              - column: { name: category_id, valueNumeric: 3 }
+
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 19 }
+              - column: { name: name, value: "Robot Tozsoran Roborock S8" }
+              - column: { name: price, valueNumeric: 1200.00 }
+              - column: { name: stock_quantity, valueNumeric: 15 }
+              - column: { name: category_id, valueNumeric: 4 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 20 }
+              - column: { name: name, value: "Qəhvə Bişirən Aparat" }
+              - column: { name: price, valueNumeric: 350.00 }
+              - column: { name: stock_quantity, valueNumeric: 30 }
+              - column: { name: category_id, valueNumeric: 4 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 21 }
+              - column: { name: name, value: "Ortopedik Yastıq" }
+              - column: { name: price, valueNumeric: 45.00 }
+              - column: { name: stock_quantity, valueNumeric: 100 }
+              - column: { name: category_id, valueNumeric: 4 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 22 }
+              - column: { name: name, value: "Mətbəx Bıçaq Dəsti" }
+              - column: { name: price, valueNumeric: 85.00 }
+              - column: { name: stock_quantity, valueNumeric: 40 }
+              - column: { name: category_id, valueNumeric: 4 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 23 }
+              - column: { name: name, value: "Masaüstü Lampa" }
+              - column: { name: price, valueNumeric: 30.00 }
+              - column: { name: stock_quantity, valueNumeric: 60 }
+              - column: { name: category_id, valueNumeric: 4 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 24 }
+              - column: { name: name, value: "Air Fryer (Fritöz)" }
+              - column: { name: price, valueNumeric: 220.00 }
+              - column: { name: stock_quantity, valueNumeric: 25 }
+              - column: { name: category_id, valueNumeric: 4 }
+
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 25 }
+              - column: { name: name, value: "Nike Pegasus 40 İdman Ayaqqabısı" }
+              - column: { name: price, valueNumeric: 210.00 }
+              - column: { name: stock_quantity, valueNumeric: 40 }
+              - column: { name: category_id, valueNumeric: 5 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 26 }
+              - column: { name: name, value: "Adidas Futbol Topu" }
+              - column: { name: price, valueNumeric: 50.00 }
+              - column: { name: stock_quantity, valueNumeric: 70 }
+              - column: { name: category_id, valueNumeric: 5 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 27 }
+              - column: { name: name, value: "Yoga Matı 6mm" }
+              - column: { name: price, valueNumeric: 35.00 }
+              - column: { name: stock_quantity, valueNumeric: 110 }
+              - column: { name: category_id, valueNumeric: 5 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 28 }
+              - column: { name: name, value: "Dumbbell Dəsti 10kg" }
+              - column: { name: price, valueNumeric: 95.00 }
+              - column: { name: stock_quantity, valueNumeric: 30 }
+              - column: { name: category_id, valueNumeric: 5 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 29 }
+              - column: { name: name, value: "İdman Su Qabı 1L" }
+              - column: { name: price, valueNumeric: 20.00 }
+              - column: { name: stock_quantity, valueNumeric: 150 }
+              - column: { name: category_id, valueNumeric: 5 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 30 }
+              - column: { name: name, value: "Fitnes Əlcəkləri" }
+              - column: { name: price, valueNumeric: 25.00 }
+              - column: { name: stock_quantity, valueNumeric: 80 }
+              - column: { name: category_id, valueNumeric: 5 }
+
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 31 }
+              - column: { name: name, value: "Atomic Habits - James Clear" }
+              - column: { name: price, valueNumeric: 24.00 }
+              - column: { name: stock_quantity, valueNumeric: 100 }
+              - column: { name: category_id, valueNumeric: 6 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 32 }
+              - column: { name: name, value: "Clean Code - Robert C. Martin" }
+              - column: { name: price, valueNumeric: 45.00 }
+              - column: { name: stock_quantity, valueNumeric: 50 }
+              - column: { name: category_id, valueNumeric: 6 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 33 }
+              - column: { name: name, value: "1984 - George Orwell" }
+              - column: { name: price, valueNumeric: 15.00 }
+              - column: { name: stock_quantity, valueNumeric: 120 }
+              - column: { name: category_id, valueNumeric: 6 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 34 }
+              - column: { name: name, value: "Sapiens - Yuval Noah Harari" }
+              - column: { name: price, valueNumeric: 28.00 }
+              - column: { name: stock_quantity, valueNumeric: 85 }
+              - column: { name: category_id, valueNumeric: 6 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 35 }
+              - column: { name: name, value: "Rich Dad Poor Dad - Robert Kiyosaki" }
+              - column: { name: price, valueNumeric: 22.00 }
+              - column: { name: stock_quantity, valueNumeric: 90 }
+              - column: { name: category_id, valueNumeric: 6 }
+        - insert:
+            tableName: products
+            columns:
+              - column: { name: id, valueNumeric: 36 }
+              - column: { name: name, value: "The Pragmatic Programmer" }
+              - column: { name: price, valueNumeric: 50.00 }
+              - column: { name: stock_quantity, valueNumeric: 40 }
+              - column: { name: category_id, valueNumeric: 6 }
