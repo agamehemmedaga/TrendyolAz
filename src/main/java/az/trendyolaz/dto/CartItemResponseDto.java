@@ -1,7 +1,10 @@
 package az.trendyolaz.dto;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+
+
+
+
 import lombok.*;
+
 import java.math.BigDecimal;
 
 @Getter
@@ -9,7 +12,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class CartItemResponseDto {
 
     private Long id;

@@ -1,10 +1,14 @@
 package az.trendyolaz.service.impl;
+
+
+
+
 import az.trendyolaz.dto.ProductRequestDto;
 import az.trendyolaz.dto.ProductResponseDto;
 import az.trendyolaz.dto.ProductSearchDto;
-import az.trendyolaz.exception.ResourceNotFoundException;
 import az.trendyolaz.entity.Category;
 import az.trendyolaz.entity.Product;
+import az.trendyolaz.exception.ResourceNotFoundException;
 import az.trendyolaz.repository.CategoryRepository;
 import az.trendyolaz.repository.ProductRepository;
 import az.trendyolaz.service.ProductService;
@@ -13,12 +17,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -40,13 +42,13 @@ public class ProductServiceImpl implements ProductService {
         return mapToResponseDto(saved);
     }
 
-        @Override
-        public List<ProductResponseDto>getAllProducts() {
-            return productRepository.findAll()
-                    .stream()
-                    .map(this::mapToResponseDto)
-                    .toList();
-        }
+    @Override
+    public List<ProductResponseDto> getAllProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(this::mapToResponseDto)
+                .toList();
+    }
 
     @Override
     public List<ProductResponseDto> getProductsByCategory(Long categoryId) {
@@ -56,38 +58,51 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
     }
 
-        @Override
-        public ProductResponseDto getProductById(Long id) {
+    @Override
+    public ProductResponseDto getProductById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Məhsul tapılmadı ID: "  + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Məhsul tapılmadı ID: " + id));
         return mapToResponseDto(product);
-        }
+    }
 
-        @Override
-    public ProductResponseDto updateProduct (Long id , ProductRequestDto requestDto){
+    @Override
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto requestDto) {
         Product product = productRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Məhsul tapılmadı ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Məhsul tapılmadı ID: " + id));
 
         Category category = categoryRepository.findById(requestDto.getCategoryId())
-                .orElseThrow(()-> new ResourceNotFoundException("Kateqoriya tapılmadı ID: " + requestDto.getCategoryId()));
-            product.setName(requestDto.getName());
-            product.setOriginalPrice(requestDto.getOriginalPrice());
-            product.setDiscountedPrice(requestDto.getDiscountedPrice());
-            product.setCategory(category);
+                .orElseThrow(() -> new ResourceNotFoundException("Kateqoriya tapılmadı ID: " + requestDto.getCategoryId()));
 
-            Product updated = productRepository.save(product);
-            return mapToResponseDto(updated);
-        }
+        product.setName(requestDto.getName());
+        product.setOriginalPrice(requestDto.getOriginalPrice());
+        product.setDiscountedPrice(requestDto.getDiscountedPrice());
+        product.setCategory(category);
 
-        @Override
-    public void deleteProduct(Long id){
-        if(!productRepository.existsById(id)){
+        Product updated = productRepository.save(product);
+        return mapToResponseDto(updated);
+    }
+
+    @Override
+    public void deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
             throw new ResourceNotFoundException("Məhsul tapılmadı ID: " + id);
         }
         productRepository.deleteById(id);
-        }
+    }
 
-        private ProductResponseDto mapToResponseDto(Product product) {
+    @Override
+    public Page<ProductResponseDto> searchProducts(ProductSearchDto searchDto, Pageable pageable) {
+        Page<Product> products = productRepository.searchProducts(
+                searchDto.getName(),
+                searchDto.getCategoryId(),
+                searchDto.getMinPrice(),
+                searchDto.getMaxPrice(),
+                pageable
+        );
+        return products.map(this::mapToResponseDto);
+    }
+
+    private ProductResponseDto mapToResponseDto(Product product) {
         return ProductResponseDto.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -96,15 +111,5 @@ public class ProductServiceImpl implements ProductService {
                 .categoryId(product.getCategory() != null ? product.getCategory().getId() : null)
                 .categoryName(product.getCategory() != null ? product.getCategory().getName() : null)
                 .build();
-
-        }
-
-    @Override
-    public Page<ProductResponseDto> searchProducts(ProductSearchDto searchDto, Pageable pageable) {
-        return Page.empty();
     }
-
-
-
-
 }

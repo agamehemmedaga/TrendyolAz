@@ -18,18 +18,10 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
-                    unique: true
               - column:
-                  name: password
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: full_name
-                  type: VARCHAR(255)
-              - column:
-                  name: role
-                  type: VARCHAR(50)
+                  name: failed_attempt
+                  type: INT
+                  defaultValueNumeric: 0
                   constraints:
                     nullable: false
 
@@ -65,12 +57,17 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: price
-                  type: DECIMAL(19, 2)
+                  name: original_price
+                  type: DECIMAL(10, 2)
                   constraints:
                     nullable: false
               - column:
-                  name: stock_quantity
+                  name: discounted_price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stock
                   type: INT
                   constraints:
                     nullable: false
@@ -79,8 +76,6 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_products_category
-                    references: categories(id)
 
         - createTable:
             tableName: carts
@@ -93,13 +88,11 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: total_amount
+                  type: DECIMAL(10, 2)
+              - column:
                   name: user_id
                   type: BIGINT
-                  constraints:
-                    nullable: false
-                    unique: true
-                    foreignKeyName: fk_carts_user
-                    references: users(id)
 
         - createTable:
             tableName: cart_items
@@ -112,87 +105,21 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: cart_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_cart_items_cart
-                    references: carts(id)
-              - column:
-                  name: product_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_cart_items_product
-                    references: products(id)
-              - column:
                   name: quantity
                   type: INT
                   constraints:
                     nullable: false
-
-        - createTable:
-            tableName: orders
-            columns:
               - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
+                  name: total_price
+                  type: DECIMAL(10, 2)
                   constraints:
-                    primaryKey: true
                     nullable: false
+              - column:
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  name: cart_id
+                  type: BIGINT
               - column:
                   name: user_id
                   type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_orders_user
-                    references: users(id)
-              - column:
-                  name: total_price
-                  type: DECIMAL(19, 2)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: status
-                  type: VARCHAR(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: created_at
-                  type: TIMESTAMP
-
-        - createTable:
-            tableName: order_items
-            columns:
-              - column:
-                  name: id
-                  type: BIGINT
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: order_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_order_items_order
-                    references: orders(id)
-              - column:
-                  name: product_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_order_items_product
-                    references: products(id)
-              - column:
-                  name: quantity
-                  type: INT
-                  constraints:
-                    nullable: false
-              - column:
-                  name: price
-                  type: DECIMAL(19, 2)
-                  constraints:
-                    nullable: false

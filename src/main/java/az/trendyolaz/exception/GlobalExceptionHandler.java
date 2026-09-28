@@ -1,54 +1,63 @@
 package az.trendyolaz.exception;
 
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-record ErrorDetails(
-        LocalDateTime timestamp,
-        String message,
-        String details
-){}
-
 @RestControllerAdvice
-
-public class GlobalExceptionHandler  {
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException ex  , WebRequest request){
-        ErrorDetails errorDetails = new ErrorDetails(
-                LocalDateTime.now(),
-                ex.getMessage(),
-                request.getDescription(false)
-        );
-
-        return new ResponseEntity<>(errorDetails , HttpStatus.NOT_FOUND);
-    }
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String , String>> handleValidationExceptions(MethodArgumentNotValidException ex){
-        Map<String , String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error->
-                errors.put(error.getField() , error.getDefaultMessage())
-        );
-        return  new  ResponseEntity<>(errors , HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> fieldErrors = new HashMap<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            fieldErrors.put(error.getField(), error.getDefaultMessage());
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.BAD_REQUEST.value());
+        response.put("error", "Validation Failed");
+        response.put("details", fieldErrors);
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDetails> handleGlobalException (Exception ex , WebRequest request ){
-        ErrorDetails errorDetails = new ErrorDetails(
-                LocalDateTime.now(),
-                "Daxili sistem xətası: " + ex.getMessage(),
-                request.getDescription(false)
-        );
-        return  new ResponseEntity<>(errorDetails , HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleUserAlreadyExists(UserAlreadyExistsException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.CONFLICT.value());
+        response.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(BadCredentialsExceptionCustom.class)
+    public ResponseEntity<Map<String, Object>> handleBadCredentials(BadCredentialsExceptionCustom ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.UNAUTHORIZED.value());
+        response.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AccountLockedException.class)
+    public ResponseEntity<Map<String, Object>> handleAccountLocked(AccountLockedException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now());
+        response.put("status", HttpStatus.LOCKED.value()); // 423 Locked
+        response.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.LOCKED);
+    }
 }

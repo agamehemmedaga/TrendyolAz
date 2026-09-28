@@ -1,9 +1,11 @@
 package az.trendyolaz.dto;
 
+
+
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Data;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -11,13 +13,10 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class ProductSearchDto {
 
     private String name;
     private Long categoryId;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
-
-
 }

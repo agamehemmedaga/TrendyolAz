@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/trendyol_db
+    url: jdbc:postgresql://localhost:5433/trendyol_db
     username: postgres
-    password: mypassword
+    password: postgrespassword
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml

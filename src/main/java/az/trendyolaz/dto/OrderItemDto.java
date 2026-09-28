@@ -1,5 +1,7 @@
 package az.trendyolaz.dto;
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +13,11 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class OrderItemDto {
-
+    private Long id;
     private Long productId;
     private String productName;
     private Integer quantity;
-    private BigDecimal price;
-
+    private BigDecimal unitPrice;
+    private BigDecimal totalPrice;
 }

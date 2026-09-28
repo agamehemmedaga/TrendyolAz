@@ -10,17 +10,18 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class OrderResponseDto {
+@NoArgsConstructor
+public class FavoriteResponseDto {
+
     private Long id;
-    private Long userId;
-    private BigDecimal totalAmount;
-    private String status;
-    private LocalDateTime createdAt;
-    private List<OrderItemDto> items;
+    private Long productId;
+    private String productName;
+    private BigDecimal originalPrice;
+    private BigDecimal discountedPrice;
+    private String categoryName;
+    private LocalDateTime addedAt;
 }

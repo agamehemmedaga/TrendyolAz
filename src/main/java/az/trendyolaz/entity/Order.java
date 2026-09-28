@@ -1,6 +1,8 @@
 package az.trendyolaz.entity;
 
 
+
+
 import az.trendyolaz.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,18 +20,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id" , nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "totalAmount" , nullable = false)
+    @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
@@ -37,13 +38,15 @@ public class Order {
     private OrderStatus status;
 
     @CreationTimestamp
-    @Column(name = "created_at" , updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Builder.Default
-    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL , orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 
-
-
+    public void addOrderItem(OrderItem item) {
+        items.add(item);
+        item.setOrder(this);
+    }
 }

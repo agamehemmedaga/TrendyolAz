@@ -1,8 +1,10 @@
 package az.trendyolaz.entity;
 
+
+
+
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.context.annotation.Configuration;
 
 import java.math.BigDecimal;
 
@@ -13,11 +15,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
-
 public class CartItem {
+
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,5 +35,9 @@ public class CartItem {
     @Column(nullable = false)
     private BigDecimal totalPrice;
 
-
+    public BigDecimal getUnitPrice() {
+        if (product == null) return BigDecimal.ZERO;
+        return product.getDiscountedPrice() != null ?
+                product.getDiscountedPrice() : product.getOriginalPrice();
+    }
 }
