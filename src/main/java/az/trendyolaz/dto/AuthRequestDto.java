@@ -15,5 +15,5 @@ public class AuthRequestDto {
     private String username;
 
     @NotBlank(message = "Şifrə boş ola bilməz")
-    private String password; // Long əvəzinə String olmalıdır
+    private String password;
 }
