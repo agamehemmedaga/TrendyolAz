@@ -1,0 +1,142 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5-align-users
+      author: mehemmed
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: full_name
+                  type: VARCHAR(255)
+              - column:
+                  name: phone_number
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+              - column:
+                  name: failed_attempt
+                  type: INT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: account_non_locked
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lock_time
+                  type: TIMESTAMP
+
+
+
+  - changeSet:
+      id: 5-align-carts
+      author: mehemmed
+      changes:
+        - addColumn:
+            tableName: carts
+            columns:
+              - column:
+                  name: username
+                  type: VARCHAR(255)
+        - dropNotNullConstraint:
+            tableName: carts
+            columnName: user_id
+            columnDataType: BIGINT
+
+  - changeSet:
+      id: 5-align-cart-items
+      author: mehemmed
+      changes:
+        - addColumn:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: total_price
+                  type: DECIMAL(10, 2)
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: 5-align-favorites
+      author: mehemmed
+      changes:
+        - addColumn:
+            tableName: favorites
+            columns:
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+
+  - changeSet:
+      id: 5-create-orders
+      author: mehemmed
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_orders_user
+                    references: users(id)
+              - column:
+                  name: total_amount
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+        - createTable:
+            tableName: order_items
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: order_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_order_items_order
+                    references: orders(id)
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_order_items_product
+                    references: products(id)
+              - column:
+                  name: quantity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false

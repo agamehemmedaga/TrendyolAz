@@ -3,3 +3,7 @@ databaseChangeLog:
       file: db/changelog/changes/001-initial-schema.yaml
   - include:
       file: db/changelog/changes/002-insert-initial-data.yaml
+  - include:
+      file: db/changelog/changes/004-add-grand-total-to-carts.yaml
+  - include:
+      file: db/changelog/changes/005-align-schema-with-entities.yaml

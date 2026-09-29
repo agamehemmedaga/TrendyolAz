@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1-create-initial-tables
+      id: 1-create-users-table
       author: mehemmed
       changes:
         - createTable:
@@ -14,17 +14,32 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: username
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
                   name: email
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+                    unique: true
               - column:
-                  name: failed_attempt
-                  type: INT
-                  defaultValueNumeric: 0
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: VARCHAR(50)
                   constraints:
                     nullable: false
 
+  - changeSet:
+      id: 1-create-categories-table
+      author: mehemmed
+      changes:
         - createTable:
             tableName: categories
             columns:
@@ -41,6 +56,10 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
+  - changeSet:
+      id: 1-create-products-table
+      author: mehemmed
+      changes:
         - createTable:
             tableName: products
             columns:
@@ -57,15 +76,16 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: description
+                  type: TEXT
+              - column:
                   name: original_price
                   type: DECIMAL(10, 2)
                   constraints:
                     nullable: false
               - column:
                   name: discounted_price
-                  type: DECIMAL(10, 2)
-                  constraints:
-                    nullable: false
+                  type: DECIMAL (10, 2)
               - column:
                   name: stock
                   type: INT
@@ -76,7 +96,13 @@ databaseChangeLog:
                   type: BIGINT
                   constraints:
                     nullable: false
+                    foreignKeyName: fk_products_category
+                    references: categories(id)
 
+  - changeSet:
+      id: 1-create-carts-table
+      author: mehemmed
+      changes:
         - createTable:
             tableName: carts
             columns:
@@ -88,12 +114,20 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: total_amount
-                  type: DECIMAL(10, 2)
-              - column:
                   name: user_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_carts_user
+                    references: users(id)
+              - column:
+                  name: grand_total
+                  type: DECIMAL(10, 2)
 
+  - changeSet:
+      id: 1-create-cart-items-table
+      author: mehemmed
+      changes:
         - createTable:
             tableName: cart_items
             columns:
@@ -105,21 +139,50 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: cart_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cart_items_cart
+                    references: carts(id)
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_cart_items_product
+                    references: products(id)
+              - column:
                   name: quantity
                   type: INT
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: 1-create-favorites-table
+      author: mehemmed
+      changes:
+        - createTable:
+            tableName: favorites
+            columns:
               - column:
-                  name: total_price
-                  type: DECIMAL(10, 2)
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
                   constraints:
+                    primaryKey: true
                     nullable: false
-              - column:
-                  name: product_id
-                  type: BIGINT
-              - column:
-                  name: cart_id
-                  type: BIGINT
               - column:
                   name: user_id
                   type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_favorites_user
+                    references: users(id)
+              - column:
+                  name: product_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_favorites_product
+                    references: products(id)
